@@ -14,8 +14,10 @@ import (
 	"github.com/xanzy/go-gitlab"
 )
 
+const name = "gitlab"
+
 func init() {
-	source.Register("gitlab", &Gitlab{})
+	source.Register(name, &Gitlab{})
 }
 
 const DefaultMaxItemsPerPage = 100
@@ -40,6 +42,11 @@ type Gitlab struct {
 }
 
 type Config struct {
+}
+
+// Name ...
+func (g *Gitlab) Name() string {
+	return name
 }
 
 func (g *Gitlab) Open(url string) (source.Driver, error) {

@@ -9,8 +9,10 @@ import (
 	"github.com/golang-migrate/migrate/v4/source"
 )
 
+const name = "stub"
+
 func init() {
-	source.Register("stub", &Stub{})
+	source.Register(name, &Stub{})
 }
 
 type Config struct{}
@@ -39,6 +41,10 @@ func WithInstance(instance interface{}, config *Config) (source.Driver, error) {
 		Migrations: source.NewMigrations(),
 		Config:     config,
 	}, nil
+}
+
+func (s *Stub) Name() string {
+	return name
 }
 
 func (s *Stub) Close() error {

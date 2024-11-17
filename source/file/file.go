@@ -9,8 +9,10 @@ import (
 	"github.com/golang-migrate/migrate/v4/source/iofs"
 )
 
+const name = "file"
+
 func init() {
-	source.Register("file", &File{})
+	source.Register(name, &File{})
 }
 
 type File struct {
@@ -18,6 +20,9 @@ type File struct {
 	url  string
 	path string
 }
+
+// Name ...
+func (f *File) Name() string { return name }
 
 func (f *File) Open(url string) (source.Driver, error) {
 	p, err := parseURL(url)

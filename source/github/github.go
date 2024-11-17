@@ -16,8 +16,10 @@ import (
 	"github.com/google/go-github/v39/github"
 )
 
+const name = "github"
+
 func init() {
-	source.Register("github", &Github{})
+	source.Register(name, &Github{})
 }
 
 var (
@@ -42,6 +44,12 @@ type Config struct {
 	Ref   string
 }
 
+// Name ...
+func (g *Github) Name() string {
+	return name
+}
+
+// Open ...
 func (g *Github) Open(url string) (source.Driver, error) {
 	u, err := nurl.Parse(url)
 	if err != nil {

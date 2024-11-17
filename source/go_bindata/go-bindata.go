@@ -9,6 +9,8 @@ import (
 	"github.com/golang-migrate/migrate/v4/source"
 )
 
+const name = "go-bindata"
+
 type AssetFunc func(name string) ([]byte, error)
 
 func Resource(names []string, afn AssetFunc) *AssetSource {
@@ -24,7 +26,7 @@ type AssetSource struct {
 }
 
 func init() {
-	source.Register("go-bindata", &Bindata{})
+	source.Register(name, &Bindata{})
 }
 
 type Bindata struct {
@@ -65,6 +67,10 @@ func WithInstance(instance interface{}) (source.Driver, error) {
 	}
 
 	return bn, nil
+}
+
+func (b *Bindata) Name() string {
+	return name
 }
 
 func (b *Bindata) Close() error {

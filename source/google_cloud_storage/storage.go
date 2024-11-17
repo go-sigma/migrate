@@ -8,11 +8,14 @@ import (
 	"path"
 	"strings"
 
-	"cloud.google.com/go/storage"
 	"context"
+
+	"cloud.google.com/go/storage"
 	"github.com/golang-migrate/migrate/v4/source"
 	"google.golang.org/api/iterator"
 )
+
+const name = "gcs"
 
 func init() {
 	source.Register("gcs", &gcs{})
@@ -22,6 +25,10 @@ type gcs struct {
 	bucket     *storage.BucketHandle
 	prefix     string
 	migrations *source.Migrations
+}
+
+func (g *gcs) Name() string {
+	return name
 }
 
 func (g *gcs) Open(folder string) (source.Driver, error) {

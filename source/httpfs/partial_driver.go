@@ -23,6 +23,10 @@ type PartialDriver struct {
 	path       string
 }
 
+func (p *PartialDriver) Name() string {
+	return name
+}
+
 // Init prepares not initialized PartialDriver instance to read migrations from a
 // http.FileSystem instance and a relative path.
 func (p *PartialDriver) Init(fs http.FileSystem, path string) error {

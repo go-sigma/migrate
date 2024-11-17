@@ -15,8 +15,10 @@ import (
 	"github.com/golang-migrate/migrate/v4/source"
 )
 
+const name = "s3"
+
 func init() {
-	source.Register("s3", &s3Driver{})
+	source.Register(name, &s3Driver{})
 }
 
 type s3Driver struct {
@@ -73,6 +75,11 @@ func parseURI(uri string) (*Config, error) {
 		Bucket: u.Host,
 		Prefix: prefix,
 	}, nil
+}
+
+// Name ...
+func (s *s3Driver) Name() string {
+	return name
 }
 
 func (s *s3Driver) loadMigrations() error {

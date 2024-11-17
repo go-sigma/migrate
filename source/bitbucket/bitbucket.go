@@ -13,8 +13,10 @@ import (
 	"github.com/ktrysmt/go-bitbucket"
 )
 
+const name = "bitbucket"
+
 func init() {
-	source.Register("bitbucket", &Bitbucket{})
+	source.Register(name, &Bitbucket{})
 }
 
 var (
@@ -36,6 +38,11 @@ type Config struct {
 	Repo  string
 	Path  string
 	Ref   string
+}
+
+// Name ...
+func (b *Bitbucket) Name() string {
+	return name
 }
 
 func (b *Bitbucket) Open(url string) (source.Driver, error) {

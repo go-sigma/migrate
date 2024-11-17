@@ -14,6 +14,8 @@ import (
 	vfs_httpfs "golang.org/x/tools/godoc/vfs/httpfs"
 )
 
+const name = "godoc-vfs"
+
 func init() {
 	source.Register("godoc-vfs", &VFS{})
 }
@@ -32,6 +34,11 @@ type VFS struct {
 // See the package level documentation for an example.
 func (b *VFS) Open(url string) (source.Driver, error) {
 	panic("not implemented")
+}
+
+// Name ...
+func (b *VFS) Name() string {
+	return name
 }
 
 // WithInstance creates a new driver from a virtual file system.

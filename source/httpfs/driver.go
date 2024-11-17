@@ -7,6 +7,8 @@ import (
 	"github.com/golang-migrate/migrate/v4/source"
 )
 
+const name = "httpfs"
+
 // driver is a migration source driver for reading migrations from
 // http.FileSystem instances. It implements source.Driver interface and can be
 // used as a migration source for the main migrate library.

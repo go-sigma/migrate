@@ -15,6 +15,8 @@ import (
 	"github.com/golang-migrate/migrate/v4/source"
 )
 
+const name = "iofs"
+
 type driver struct {
 	PartialDriver
 }
@@ -26,6 +28,11 @@ func New(fsys fs.FS, path string) (source.Driver, error) {
 		return nil, fmt.Errorf("failed to init driver with path %s: %w", path, err)
 	}
 	return &i, nil
+}
+
+// Name is part of source.Driver interface implementation.
+func (d *driver) Name() string {
+	return name
 }
 
 // Open is part of source.Driver interface implementation.
