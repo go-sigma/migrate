@@ -2,6 +2,7 @@ package source
 
 import (
 	"fmt"
+	"path"
 	"regexp"
 	"strconv"
 )
@@ -23,7 +24,7 @@ var Regex = regexp.MustCompile(`^([0-9]+)_(.*)\.(` + string(Down) + `|` + string
 
 // Parse returns Migration for matching Regex pattern.
 func Parse(raw string) (*Migration, error) {
-	m := Regex.FindStringSubmatch(raw)
+	m := Regex.FindStringSubmatch(path.Base(raw))
 	if len(m) == 5 {
 		versionUint64, err := strconv.ParseUint(m[1], 10, 64)
 		if err != nil {

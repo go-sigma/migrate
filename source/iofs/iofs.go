@@ -10,6 +10,7 @@ import (
 	"io/fs"
 	"path"
 	"strconv"
+	"strings"
 
 	"github.com/golang-migrate/migrate/v4/source"
 )
@@ -48,28 +49,27 @@ type PartialDriver struct {
 // Init prepares not initialized IoFS instance to read migrations from a
 // io/fs#FS instance and a relative path.
 func (d *PartialDriver) Init(fsys fs.FS, path string) error {
-	entries, err := fs.ReadDir(fsys, path)
+	var entries []string
+	err := fs.WalkDir(fsys, path, func(p string, d fs.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+		entries = append(entries, strings.TrimPrefix(strings.TrimPrefix(p, path), "/"))
+		return nil
+	})
 	if err != nil {
 		return err
 	}
 
 	ms := source.NewMigrations()
 	for _, e := range entries {
-		if e.IsDir() {
-			continue
-		}
-		m, err := source.DefaultParse(e.Name())
+		m, err := source.DefaultParse(e)
 		if err != nil {
 			continue
-		}
-		file, err := e.Info()
-		if err != nil {
-			return err
 		}
 		if !ms.Append(m) {
 			return source.ErrDuplicateMigration{
 				Migration: *m,
-				FileInfo:  file,
 			}
 		}
 	}
