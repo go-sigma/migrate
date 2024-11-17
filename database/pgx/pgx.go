@@ -22,18 +22,20 @@ import (
 	"github.com/hashicorp/go-multierror"
 	"github.com/jackc/pgconn"
 	"github.com/jackc/pgerrcode"
-	_ "github.com/jackc/pgx/v4/stdlib"
 	"github.com/lib/pq"
+
+	_ "github.com/jackc/pgx/v4/stdlib"
 )
 
 const (
+	name                 = "pgx"
 	LockStrategyAdvisory = "advisory"
 	LockStrategyTable    = "table"
 )
 
 func init() {
 	db := Postgres{}
-	database.Register("pgx", &db)
+	database.Register(name, &db)
 	database.Register("pgx4", &db)
 }
 
@@ -162,6 +164,12 @@ func WithInstance(instance *sql.DB, config *Config) (database.Driver, error) {
 	return px, nil
 }
 
+// Name ...
+func (p *Postgres) Name() string {
+	return name
+}
+
+// Open ...
 func (p *Postgres) Open(url string) (database.Driver, error) {
 	purl, err := nurl.Parse(url)
 	if err != nil {

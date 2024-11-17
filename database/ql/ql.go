@@ -15,8 +15,10 @@ import (
 	_ "modernc.org/ql/driver"
 )
 
+const name = "ql"
+
 func init() {
-	database.Register("ql", &Ql{})
+	database.Register(name, &Ql{})
 }
 
 var DefaultMigrationsTable = "schema_migrations"
@@ -60,6 +62,11 @@ func WithInstance(instance *sql.DB, config *Config) (database.Driver, error) {
 		return nil, err
 	}
 	return mx, nil
+}
+
+// Name ...
+func (m *Ql) Name() string {
+	return name
 }
 
 // ensureVersionTable checks if versions table exists and, if not, creates it.

@@ -14,19 +14,21 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/go-multierror"
+	"github.com/lib/pq"
 	"go.uber.org/atomic"
 
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database"
 	"github.com/golang-migrate/migrate/v4/database/multistmt"
-	"github.com/hashicorp/go-multierror"
-	"github.com/lib/pq"
 )
+
+const name = "postgresql"
 
 func init() {
 	db := Postgres{}
 	database.Register("postgres", &db)
-	database.Register("postgresql", &db)
+	database.Register(name, &db)
 }
 
 var (
@@ -151,6 +153,12 @@ func WithInstance(instance *sql.DB, config *Config) (database.Driver, error) {
 	return px, nil
 }
 
+// Name ...
+func (p *Postgres) Name() string {
+	return name
+}
+
+// Open ...
 func (p *Postgres) Open(url string) (database.Driver, error) {
 	purl, err := nurl.Parse(url)
 	if err != nil {

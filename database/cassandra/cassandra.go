@@ -17,9 +17,11 @@ import (
 	"github.com/hashicorp/go-multierror"
 )
 
+const name = "cassandra"
+
 func init() {
 	db := new(Cassandra)
-	database.Register("cassandra", db)
+	database.Register(name, db)
 }
 
 var (
@@ -81,6 +83,11 @@ func WithInstance(session *gocql.Session, config *Config) (database.Driver, erro
 	}
 
 	return c, nil
+}
+
+// Name ...
+func (c *Cassandra) Name() string {
+	return name
 }
 
 func (c *Cassandra) Open(url string) (database.Driver, error) {

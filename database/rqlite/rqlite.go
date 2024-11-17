@@ -16,8 +16,10 @@ import (
 	"github.com/rqlite/gorqlite"
 )
 
+const name = "rqlite"
+
 func init() {
-	database.Register("rqlite", &Rqlite{})
+	database.Register(name, &Rqlite{})
 }
 
 const (
@@ -108,6 +110,11 @@ func (r *Rqlite) ensureVersionTable() (err error) {
 	}
 
 	return nil
+}
+
+// Name ...
+func (r *Rqlite) Name() string {
+	return name
 }
 
 // Open returns a new driver instance configured with parameters

@@ -17,6 +17,8 @@ import (
 	"go.uber.org/atomic"
 )
 
+const name = "firebird"
+
 func init() {
 	db := Firebird{}
 	database.Register("firebird", &db)
@@ -75,6 +77,12 @@ func WithInstance(instance *sql.DB, config *Config) (database.Driver, error) {
 	return fb, nil
 }
 
+// Name ...
+func (f *Firebird) Name() string {
+	return name
+}
+
+// Open ...
 func (f *Firebird) Open(dsn string) (database.Driver, error) {
 	purl, err := nurl.Parse(dsn)
 	if err != nil {

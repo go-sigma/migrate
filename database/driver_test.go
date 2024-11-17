@@ -24,6 +24,10 @@ func (m *mockDriver) Open(url string) (Driver, error) {
 	}, nil
 }
 
+func (m *mockDriver) Name() string {
+	return "mock"
+}
+
 func (m *mockDriver) Close() error {
 	return nil
 }

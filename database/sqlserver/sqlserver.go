@@ -18,6 +18,8 @@ import (
 	mssql "github.com/microsoft/go-mssqldb" // mssql support
 )
 
+const name = "sqlserver"
+
 func init() {
 	database.Register("sqlserver", &SQLServer{})
 }
@@ -119,6 +121,11 @@ func WithInstance(instance *sql.DB, config *Config) (database.Driver, error) {
 	}
 
 	return ss, nil
+}
+
+// Name returns the name of the database
+func (ss *SQLServer) Name() string {
+	return name
 }
 
 // Open a connection to the database.

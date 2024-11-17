@@ -16,8 +16,10 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+const name = "sqlite3"
+
 func init() {
-	database.Register("sqlite3", &Sqlite{})
+	database.Register(name, &Sqlite{})
 }
 
 var DefaultMigrationsTable = "schema_migrations"
@@ -63,6 +65,11 @@ func WithInstance(instance *sql.DB, config *Config) (database.Driver, error) {
 	return mx, nil
 }
 
+// Name ...
+func (m *Sqlite) Name() string {
+	return name
+}
+
 // ensureVersionTable checks if versions table exists and, if not, creates it.
 // Note that this function locks the database, which deviates from the usual
 // convention of "caller locks" in the Sqlite type.
@@ -92,6 +99,7 @@ func (m *Sqlite) ensureVersionTable() (err error) {
 	return nil
 }
 
+// Open ...
 func (m *Sqlite) Open(url string) (database.Driver, error) {
 	purl, err := nurl.Parse(url)
 	if err != nil {

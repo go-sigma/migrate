@@ -25,8 +25,10 @@ import (
 
 var _ database.Driver = (*Mysql)(nil) // explicit compile time type check
 
+const name = "mysql"
+
 func init() {
-	database.Register("mysql", &Mysql{})
+	database.Register(name, &Mysql{})
 }
 
 var DefaultMigrationsTable = "schema_migrations"
@@ -225,6 +227,12 @@ func urlToMySQLConfig(url string) (*mysql.Config, error) {
 	return config, nil
 }
 
+// Name ...
+func (m *Mysql) Name() string {
+	return name
+}
+
+// Open ...
 func (m *Mysql) Open(url string) (database.Driver, error) {
 	config, err := urlToMySQLConfig(url)
 	if err != nil {

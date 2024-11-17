@@ -20,9 +20,11 @@ import (
 	"github.com/lib/pq"
 )
 
+const name = "redshift"
+
 func init() {
 	db := Redshift{}
-	database.Register("redshift", &db)
+	database.Register(name, &db)
 }
 
 var DefaultMigrationsTable = "schema_migrations"
@@ -92,6 +94,12 @@ func WithInstance(instance *sql.DB, config *Config) (database.Driver, error) {
 	return px, nil
 }
 
+// Name ...
+func (p *Redshift) Name() string {
+	return name
+}
+
+// Open ...
 func (p *Redshift) Open(url string) (database.Driver, error) {
 	purl, err := nurl.Parse(url)
 	if err != nil {

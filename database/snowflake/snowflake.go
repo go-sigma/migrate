@@ -17,9 +17,11 @@ import (
 	sf "github.com/snowflakedb/gosnowflake"
 )
 
+const name = "snowflake"
+
 func init() {
 	db := Snowflake{}
-	database.Register("snowflake", &db)
+	database.Register(name, &db)
 }
 
 var DefaultMigrationsTable = "schema_migrations"
@@ -92,6 +94,12 @@ func WithInstance(instance *sql.DB, config *Config) (database.Driver, error) {
 	return px, nil
 }
 
+// Name ...
+func (p *Snowflake) Name() string {
+	return name
+}
+
+// Open ...
 func (p *Snowflake) Open(url string) (database.Driver, error) {
 	purl, err := nurl.Parse(url)
 	if err != nil {

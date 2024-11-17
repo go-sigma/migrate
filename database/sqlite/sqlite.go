@@ -16,8 +16,10 @@ import (
 	_ "modernc.org/sqlite"
 )
 
+const name = "sqlite"
+
 func init() {
-	database.Register("sqlite", &Sqlite{})
+	database.Register(name, &Sqlite{})
 }
 
 var DefaultMigrationsTable = "schema_migrations"
@@ -90,6 +92,11 @@ func (m *Sqlite) ensureVersionTable() (err error) {
 		return err
 	}
 	return nil
+}
+
+// Name ...
+func (m *Sqlite) Name() string {
+	return name
 }
 
 func (m *Sqlite) Open(url string) (database.Driver, error) {

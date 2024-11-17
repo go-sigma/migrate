@@ -36,8 +36,10 @@ type Config struct {
 	MultiStatementMaxSize int
 }
 
+const name = "clickhouse"
+
 func init() {
-	database.Register("clickhouse", &ClickHouse{})
+	database.Register(name, &ClickHouse{})
 }
 
 func WithInstance(conn *sql.DB, config *Config) (database.Driver, error) {
@@ -65,6 +67,11 @@ type ClickHouse struct {
 	conn     *sql.DB
 	config   *Config
 	isLocked atomic.Bool
+}
+
+// Name ...
+func (ch *ClickHouse) Name() string {
+	return name
 }
 
 func (ch *ClickHouse) Open(dsn string) (database.Driver, error) {

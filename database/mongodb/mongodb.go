@@ -19,9 +19,11 @@ import (
 	"go.uber.org/atomic"
 )
 
+const name = "mongodb"
+
 func init() {
 	db := Mongo{}
-	database.Register("mongodb", &db)
+	database.Register(name, &db)
 	database.Register("mongodb+srv", &db)
 }
 
@@ -113,6 +115,12 @@ func WithInstance(instance *mongo.Client, config *Config) (database.Driver, erro
 	return mc, nil
 }
 
+// Name ...
+func (m *Mongo) Name() string {
+	return name
+}
+
+// Open ...
 func (m *Mongo) Open(dsn string) (database.Driver, error) {
 	// connstring is experimental package, but it used for parse connection string in mongo.Connect function
 	uri, err := connstring.Parse(dsn)

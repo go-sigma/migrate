@@ -14,6 +14,8 @@ import (
 	"github.com/neo4j/neo4j-go-driver/neo4j"
 )
 
+const name = "neo4j"
+
 func init() {
 	db := Neo4j{}
 	database.Register("neo4j", &db)
@@ -61,6 +63,12 @@ func WithInstance(driver neo4j.Driver, config *Config) (database.Driver, error) 
 	return nDriver, nil
 }
 
+// Name ...
+func (n *Neo4j) Name() string {
+	return name
+}
+
+// Open ...
 func (n *Neo4j) Open(url string) (database.Driver, error) {
 	uri, err := neturl.Parse(url)
 	if err != nil {

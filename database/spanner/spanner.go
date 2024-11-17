@@ -24,9 +24,11 @@ import (
 	"google.golang.org/api/iterator"
 )
 
+const name = "spanner"
+
 func init() {
 	db := Spanner{}
-	database.Register("spanner", &db)
+	database.Register(name, &db)
 }
 
 // DefaultMigrationsTable is used if no custom table is specified
@@ -104,6 +106,11 @@ func WithInstance(instance *DB, config *Config) (database.Driver, error) {
 	}
 
 	return sx, nil
+}
+
+// Name ...
+func (s *Spanner) Name() string {
+	return name
 }
 
 // Open implements database.Driver

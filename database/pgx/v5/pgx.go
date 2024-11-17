@@ -25,9 +25,11 @@ import (
 	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
+const name = "pgx5"
+
 func init() {
 	db := Postgres{}
-	database.Register("pgx5", &db)
+	database.Register(name, &db)
 }
 
 var (
@@ -138,6 +140,12 @@ func WithInstance(instance *sql.DB, config *Config) (database.Driver, error) {
 	return px, nil
 }
 
+// Name ...
+func (p *Postgres) Name() string {
+	return name
+}
+
+// Open ...
 func (p *Postgres) Open(url string) (database.Driver, error) {
 	purl, err := nurl.Parse(url)
 	if err != nil {

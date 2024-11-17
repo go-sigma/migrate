@@ -17,9 +17,11 @@ import (
 	"go.uber.org/atomic"
 )
 
+const name = "cockroach"
+
 func init() {
 	db := CockroachDb{}
-	database.Register("cockroach", &db)
+	database.Register(name, &db)
 	database.Register("cockroachdb", &db)
 	database.Register("crdb-postgres", &db)
 }
@@ -45,6 +47,11 @@ type CockroachDb struct {
 
 	// Open and WithInstance need to guarantee that config is never nil
 	config *Config
+}
+
+// Name ...
+func (c *CockroachDb) Name() string {
+	return name
 }
 
 func WithInstance(instance *sql.DB, config *Config) (database.Driver, error) {
@@ -95,6 +102,7 @@ func WithInstance(instance *sql.DB, config *Config) (database.Driver, error) {
 	return px, nil
 }
 
+// Open ...
 func (c *CockroachDb) Open(url string) (database.Driver, error) {
 	purl, err := nurl.Parse(url)
 	if err != nil {

@@ -9,8 +9,10 @@ import (
 	"github.com/golang-migrate/migrate/v4/database"
 )
 
+const name = "stub"
+
 func init() {
-	database.Register("stub", &Stub{})
+	database.Register(name, &Stub{})
 }
 
 type Stub struct {
@@ -43,6 +45,11 @@ func WithInstance(instance interface{}, config *Config) (database.Driver, error)
 		MigrationSequence: make([]string, 0),
 		Config:            config,
 	}, nil
+}
+
+// Name ...
+func (s *Stub) Name() string {
+	return name
 }
 
 func (s *Stub) Close() error {

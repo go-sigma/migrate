@@ -26,6 +26,7 @@ const (
 	DefaultMaxRetries          = 10
 	DefaultMigrationsTable     = "migrations"
 	DefaultLockTable           = "migrations_locks"
+	name                       = "yugabyte"
 )
 
 var (
@@ -36,7 +37,7 @@ var (
 
 func init() {
 	db := YugabyteDB{}
-	database.Register("yugabyte", &db)
+	database.Register(name, &db)
 	database.Register("yugabytedb", &db)
 	database.Register("ysql", &db)
 }
@@ -117,6 +118,11 @@ func WithInstance(instance *sql.DB, config *Config) (database.Driver, error) {
 	}
 
 	return px, nil
+}
+
+// Name ...
+func (c *YugabyteDB) Name() string {
+	return name
 }
 
 func (c *YugabyteDB) Open(dbURL string) (database.Driver, error) {

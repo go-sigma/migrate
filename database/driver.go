@@ -43,6 +43,9 @@ var drivers = make(map[string]Driver)
 //   - All configuration input must come from the URL string in func Open()
 //     or the Config{} struct in WithInstance. Don't os.Getenv().
 type Driver interface {
+	// Name returns the name of the database driver.
+	Name() string
+
 	// Open returns a new driver instance configured with parameters
 	// coming from the URL string. Migrate will call this function
 	// only once per instance.

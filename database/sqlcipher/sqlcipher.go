@@ -16,8 +16,10 @@ import (
 	_ "github.com/mutecomm/go-sqlcipher/v4"
 )
 
+const name = "sqlcipher"
+
 func init() {
-	database.Register("sqlcipher", &Sqlite{})
+	database.Register(name, &Sqlite{})
 }
 
 var DefaultMigrationsTable = "schema_migrations"
@@ -61,6 +63,11 @@ func WithInstance(instance *sql.DB, config *Config) (database.Driver, error) {
 		return nil, err
 	}
 	return mx, nil
+}
+
+// Name ...
+func (m *Sqlite) Name() string {
+	return name
 }
 
 // ensureVersionTable checks if versions table exists and, if not, creates it.
